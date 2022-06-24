@@ -1,0 +1,40 @@
+body {
+    background-color: rgb(244, 239, 198);
+}
+
+#board {
+    background-color: rgb(156, 228, 219);
+    width: 50vw;
+    height: 100vh;
+    position: relative;
+    margin: auto;
+}
+
+/*.bubble {
+    background-color: rgb(212, 68, 145);
+    position: absolute;
+}*/js
+
+.bubble-pink {
+    background-color: rgb(212, 68, 145);
+    position: absolute;
+    border-radius: 50%;
+}
+
+.bubble-green{
+    background-color: rgb(53, 218, 106);
+    position: absolute;
+    border-radius: 50%;
+}
+
+.bubble-yellow{
+    background-color: rgb(229, 238, 69);
+    position: absolute;
+    border-radius: 50%;
+}
+
+.bubble-blue{
+    background-color: rgb(80, 206, 228);
+    position: absolute;
+    border-radius: 50%;
+}
