@@ -61,21 +61,24 @@ class Game {
             console.log( "clientX: " + event.clientX +
             " - clientY: " + event.clientY);
 
-        const velocityPixelX = event.clientX - this.bubble.getCenterX();
-        const velocityPixelY = -(event.clientY - this.bubble.getCenterY());
-        console.log("getcenterX " + this.bubble.getCenterX())
-        console.log("getcenterY " + this.bubble.getCenterY())
-        const diagonalPixel = Math.sqrt(velocityPixelX ** 2 + velocityPixelY ** 2);
-        const moveRatio = this.velocity / diagonalPixel;
-        this.velocityX = velocityPixelX * moveRatio;
-        this.velocityY = velocityPixelY * moveRatio;
-        
-        this.intervalId = setInterval(() => {
-            this.moveBubble();   
-        }, 50);
+            if(this.bubble.actionComplete === false) {
+                this.bubble.actionComplete = true;
+                const velocityPixelX = event.clientX - this.bubble.getCenterX();
+                const velocityPixelY = -(event.clientY - this.bubble.getCenterY());
+                console.log("getcenterX " + this.bubble.getCenterX())
+                console.log("getcenterY " + this.bubble.getCenterY())
+                const diagonalPixel = Math.sqrt(velocityPixelX ** 2 + velocityPixelY ** 2);
+                const moveRatio = this.velocity / diagonalPixel;
+                this.velocityX = velocityPixelX * moveRatio;
+                this.velocityY = velocityPixelY * moveRatio;
+                
+                this.intervalId = setInterval(() => {
+                    this.moveBubble();   
+                }, 50);
         
 
-        this.bubble.stopShaking();
+                this.bubble.stopShaking();
+            }    
         });
     }
 }
@@ -87,7 +90,7 @@ class Bubble {
         this.width = 6;
         this.positionX = positionX;
         this.positionY = positionY;
-        
+        this.actionComplete = false;
 
         this.domElement = null;
         this.createDomElement();
