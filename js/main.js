@@ -1,3 +1,4 @@
+const verticalStep = Math.sqrt(27);
 
 class Game {
     constructor(){
@@ -21,7 +22,7 @@ class Game {
             for (let x = a; x < 60; x += 6) {
                 this.bubbles.push(new Bubble(x, y));
             }
-            y -= 5;
+            y -= verticalStep;
         }
         this.newActiveBubble();
     }
@@ -89,14 +90,14 @@ class Game {
                 const velocityPixelY = -(event.clientY - this.bubble.getCenterY());
                 console.log("getcenterX " + this.bubble.getCenterX())
                 console.log("getcenterY " + this.bubble.getCenterY())
-                const diagonalPixel = Math.sqrt(velocityPixelX ** 2 + velocityPixelY ** 2);
+                const diagonalPixel = Math.sqrt(Math.pow(velocityPixelX, 2) + Math.pow(velocityPixelY, 2));
                 const moveRatio = this.velocity / diagonalPixel;
                 this.velocityX = velocityPixelX * moveRatio;
                 this.velocityY = velocityPixelY * moveRatio;
                 
                 this.intervalId = setInterval(() => {
                     this.moveBubble();   
-                }, 50);
+                }, 20);
         
 
                 this.bubble.stopShaking();
@@ -149,10 +150,12 @@ class Bubble {
 
     getPossibleLocations() {
         const locationsArr = [];
-        locationsArr.push({x:this.positionX + 3, y:this.positionY - 5});
-        locationsArr.push({x:this.positionX - 3, y:this.positionY - 5});
+        locationsArr.push({x:this.positionX + 3, y:this.positionY - verticalStep});
+        locationsArr.push({x:this.positionX - 3, y:this.positionY - verticalStep});
         locationsArr.push({x:this.positionX + 6, y:this.positionY});
         locationsArr.push({x:this.positionX - 6, y:this.positionY});
+        locationsArr.push({x:this.positionX + 3, y:this.positionY + verticalStep});
+        locationsArr.push({x:this.positionX - 3, y:this.positionY + verticalStep});
         
         return locationsArr;
     }
@@ -160,7 +163,7 @@ class Bubble {
     distanceTo(x, y) {
         const centerX = this.positionX - this.width/2;
         const centerY = this.positionY - this.height/2;
-        const distance = Math.sqrt((centerX - x) ** 2 + (centerY - y) ** 2);
+        const distance = Math.sqrt(Math.pow((centerX - x), 2) + Math.pow((centerY - y), 2));
         return distance;
     }
 
@@ -169,11 +172,13 @@ class Bubble {
         let minDistance = this.distanceTo(locations[0].x, locations[0].y);
         for (let i = 0; i < locations.length; i++) {
             const distance =  this.distanceTo(locations[i].x, locations[i].y);
+            console.log(distance)
             if ( distance < minDistance) {
                 minDistance = distance;
                 location = locations[i];
             }
         }
+        console.log("min distance: " + minDistance)
         return location;
     }
 
@@ -182,7 +187,7 @@ class Bubble {
         const centerY = this.positionY - this.height/2;
         const otherCenterX = otherBubble.positionX - otherBubble.width/2 + velocityX; 
         const otherCenterY = otherBubble.positionY - otherBubble.height/2 + velocityY;
-        const distance = Math.sqrt((centerX - otherCenterX) ** 2 + (centerY - otherCenterY) ** 2);
+        const distance = Math.sqrt(Math.pow((centerX - otherCenterX), 2) + Math.pow((centerY - otherCenterY), 2));
         if (distance <= 6) {
             return distance;
         }
