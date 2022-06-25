@@ -24,22 +24,30 @@ body {
     background-color: rgb(212, 68, 145);
     position: absolute;
     border-radius: 50%;
+    outline: 1px solid rgb(75, 26, 52);
+    outline-offset: -1px;
 }
 
 .bubble-green{
     background-color: rgb(53, 218, 106);
     position: absolute;
     border-radius: 50%;
+    outline: 1px solid rgb(75, 26, 52);
+    outline-offset: -1px;
 }
 
 .bubble-yellow{
     background-color: rgb(229, 238, 69);
     position: absolute;
     border-radius: 50%;
+    outline: 1px solid rgb(75, 26, 52);
+    outline-offset: -1px;
 }
 
 .bubble-blue{
     background-color: rgb(80, 206, 228);
     position: absolute;
     border-radius: 50%;
+    outline: 1px solid rgb(75, 26, 52);
+    outline-offset: -1px;
 }
