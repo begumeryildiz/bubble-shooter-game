@@ -28,6 +28,7 @@ class Game {
 
 
     moveBubble() {
+        // border collusion
         if(this.bubble.positionX + this.velocityX > this.width - this.bubbleRadius
             || this.bubble.positionX + this.velocityX < this.bubbleRadius) {
             this.velocityX = -this.velocityX;
@@ -41,12 +42,27 @@ class Game {
             this.bubble.positionY = this.height - this.bubbleRadius;
             this.bubbleStick();
         }
+
+        // bubble to bubble collusion
+        for (let i = 0; i < this.bubbles.length; i++) {
+            if ( this.bubbles[i].willCollide(this.bubble, this.velocityX, this.velocityY) === true) {
+                this.velocityX = 0;
+                this.velocityY = 0;
+                this.bubbleStick();
+
+            }
+        }
+
+
+        // move if no collusion
         this.bubble.moveBy(this.velocityX, this.velocityY);
     }
 
     bubbleStick() {
         clearInterval(this.intervalId);
+
         setTimeout(() => {
+            this.bubbles.push(this.bubble);
             this.newActiveBubble();
         }, 1000);   
     }
@@ -123,6 +139,18 @@ class Bubble {
         let viewportOffset = this.domElement.getBoundingClientRect();
         let centerY = viewportOffset.top + viewportOffset.height / 2;
         return centerY;
+    }
+
+    willCollide(otherBubble, velocityX, velocityY) {
+        const centerX = this.positionX - this.width/2;
+        const centerY = this.positionY - this.height/2;
+        const otherCenterX = otherBubble.positionX - otherBubble.width/2 + velocityX; 
+        const otherCenterY = otherBubble.positionY - otherBubble.height/2 + velocityY;
+        const distance = Math.sqrt((centerX - otherCenterX) ** 2 + (centerY - otherCenterY) ** 2);
+        if (distance <= 6) {
+            return true;
+        }
+        return false;
     }
 
     moveBy(velocityX, velocityY){
