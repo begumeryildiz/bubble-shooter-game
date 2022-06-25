@@ -12,7 +12,6 @@ class Game {
         
     }
     start(){
-        this.bubble = new Bubble(30,10);
         let y = this.height - this.bubbleRadius;
         for (let i = 0; i < 8; i++) {
             let a = 3;
@@ -24,20 +23,37 @@ class Game {
             }
             y -= 5;
         }
+        this.newActiveBubble();
+    }
 
-        
 
-        setInterval(() => {
-            if(this.bubble.positionX + this.velocityX > this.width - this.bubbleRadius
-                || this.bubble.positionX + this.velocityX < this.bubbleRadius) {
-                this.velocityX = -this.velocityX;
-            }
-            if(this.bubble.positionY + this.velocityY > this.height - this.bubbleRadius
-                || this.bubble.positionY + this.velocityY < this.bubbleRadius) {
-                this.velocityY = -this.velocityY;
-            }
-            this.bubble.moveBy(this.velocityX, this.velocityY);
-        }, 50);
+    moveBubble() {
+        if(this.bubble.positionX + this.velocityX > this.width - this.bubbleRadius
+            || this.bubble.positionX + this.velocityX < this.bubbleRadius) {
+            this.velocityX = -this.velocityX;
+        }
+        if(this.bubble.positionY + this.velocityY < this.bubbleRadius) {
+            this.velocityY = -this.velocityY;
+        }
+        if (this.bubble.positionY + this.velocityY > this.height - this.bubbleRadius){
+            this.velocityX = 0;
+            this.velocityY = 0;
+            this.bubble.positionY = this.height - this.bubbleRadius;
+            this.bubbleStick();
+        }
+        this.bubble.moveBy(this.velocityX, this.velocityY);
+    }
+
+    bubbleStick() {
+        clearInterval(this.intervalId);
+        setTimeout(() => {
+            this.newActiveBubble();
+        }, 1000);   
+    }
+
+    newActiveBubble() {
+        this.bubble = new Bubble(30,10);
+        this.bubble.startShaking();
     }
     
     attachEventListeners(){
@@ -53,7 +69,13 @@ class Game {
         const moveRatio = this.velocity / diagonalPixel;
         this.velocityX = velocityPixelX * moveRatio;
         this.velocityY = velocityPixelY * moveRatio;
+        
+        this.intervalId = setInterval(() => {
+            this.moveBubble();   
+        }, 50);
+        
 
+        this.bubble.stopShaking();
         });
     }
 }
@@ -108,6 +130,17 @@ class Bubble {
         this.domElement.style.height = this.height + "vh";
         this.domElement.style.width = this.width + "vh";
     }
+
+    startShaking() {
+        this.domElement.style.animationName= 'shake';
+        this.domElement.style.animationDuration= '0.3s';
+        this.domElement.style.animationIterationCount = 'infinite';
+    }
+
+    stopShaking() {
+        this.domElement.style.animationName= '';
+    }
+
 }
 
 const game = new Game();
