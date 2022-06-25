@@ -3,17 +3,22 @@ body {
 }
 
 #board {
-    background-color: rgb(156, 228, 219);
-    width: 50vw;
-    height: 100vh;
-    position: relative;
-    margin: auto;
+    background-color: rgb(199, 240, 234);
+    width: 60vh;
+    height: 90vh;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    outline: 3vh solid rgb(75, 26, 52);
 }
 
 /*.bubble {
     background-color: rgb(212, 68, 145);
     position: absolute;
-}*/js
+}*/
 
 .bubble-pink {
     background-color: rgb(212, 68, 145);
