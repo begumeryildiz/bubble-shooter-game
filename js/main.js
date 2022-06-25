@@ -28,6 +28,7 @@ class Game {
 
 
     moveBubble() {
+        let stopped = false
         // border collusion
         if(this.bubble.positionX + this.velocityX > this.width - this.bubbleRadius
             || this.bubble.positionX + this.velocityX < this.bubbleRadius) {
@@ -40,22 +41,27 @@ class Game {
             this.velocityX = 0;
             this.velocityY = 0;
             this.bubble.positionY = this.height - this.bubbleRadius;
-            this.bubbleStick();
+            stopped = true;
         }
 
         // bubble to bubble collusion
         for (let i = 0; i < this.bubbles.length; i++) {
-            if ( this.bubbles[i].willCollide(this.bubble, this.velocityX, this.velocityY) === true) {
+            if ( this.bubbles[i].willCollide(this.bubble, this.velocityX, this.velocityY) !== false) {
                 this.velocityX = 0;
                 this.velocityY = 0;
-                this.bubbleStick();
-
+                const locations = this.bubbles[i].getPossibleLocations();
+                const bestLocation = this.bubble.closestLocation(locations);
+                this.bubble.positionX = bestLocation.x;
+                this.bubble.positionY = bestLocation.y;
+                stopped = true;
+                
             }
         }
-
-
         // move if no collusion
         this.bubble.moveBy(this.velocityX, this.velocityY);
+        if (stopped) {
+            this.bubbleStick();
+        }
     }
 
     bubbleStick() {
@@ -141,6 +147,36 @@ class Bubble {
         return centerY;
     }
 
+    getPossibleLocations() {
+        const locationsArr = [];
+        locationsArr.push({x:this.positionX + 3, y:this.positionY - 5});
+        locationsArr.push({x:this.positionX - 3, y:this.positionY - 5});
+        locationsArr.push({x:this.positionX + 6, y:this.positionY});
+        locationsArr.push({x:this.positionX - 6, y:this.positionY});
+        
+        return locationsArr;
+    }
+
+    distanceTo(x, y) {
+        const centerX = this.positionX - this.width/2;
+        const centerY = this.positionY - this.height/2;
+        const distance = Math.sqrt((centerX - x) ** 2 + (centerY - y) ** 2);
+        return distance;
+    }
+
+    closestLocation(locations) {
+        let location = locations[0];
+        let minDistance = this.distanceTo(locations[0].x, locations[0].y);
+        for (let i = 0; i < locations.length; i++) {
+            const distance =  this.distanceTo(locations[i].x, locations[i].y);
+            if ( distance < minDistance) {
+                minDistance = distance;
+                location = locations[i];
+            }
+        }
+        return location;
+    }
+
     willCollide(otherBubble, velocityX, velocityY) {
         const centerX = this.positionX - this.width/2;
         const centerY = this.positionY - this.height/2;
@@ -148,7 +184,7 @@ class Bubble {
         const otherCenterY = otherBubble.positionY - otherBubble.height/2 + velocityY;
         const distance = Math.sqrt((centerX - otherCenterX) ** 2 + (centerY - otherCenterY) ** 2);
         if (distance <= 6) {
-            return true;
+            return distance;
         }
         return false;
     }
