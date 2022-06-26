@@ -43,6 +43,8 @@ class Game {
             this.velocityX = 0;
             this.velocityY = 0;
             this.bubble.positionY = this.height - this.bubbleRadius;
+            // x=3+6*n top line positioning fix 
+            this.bubble.positionX = Math.round((this.bubble.positionX - 3) / 6) * 6 + 3; 
             stopped = true;
         }
 
