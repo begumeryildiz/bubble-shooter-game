@@ -7,11 +7,11 @@ class Game {
         this.width = 60;
         this.height = 90;
         this.bubbleRadius = 3;
-        this.velocity = 1;
-        this.velocityX = 0.0;
-        this.velocityY = 0.0;
-        
+        this.velocity = 0.2;
+        this.velocityX = 0;
+        this.velocityY = 0;    
     }
+
     start(){
         let y = this.height - this.bubbleRadius;
         for (let i = 0; i < 8; i++) {
@@ -77,6 +77,7 @@ class Game {
 
         setTimeout(() => {
             this.bubbles.push(this.bubble);
+            this.findClustersAndRemoveBubbles();
             this.newActiveBubble();
         }, 1000);   
     }
@@ -104,12 +105,51 @@ class Game {
                 
                 this.intervalId = setInterval(() => {
                     this.moveBubble();   
-                }, 20);
+                }, 4);
         
 
                 this.bubble.stopShaking();
-            }    
+            }   
         });
+    }
+
+    findClustersAndRemoveBubbles() {
+        const clusterArr = [];
+        const newMemberArr = [];
+        
+        clusterArr.push(this.bubble);
+        newMemberArr.push(this.bubble);
+
+        while (newMemberArr.length > 0) {
+            const element = newMemberArr.shift();
+            
+            for (let i = 0; i < this.bubbles.length; i++) {
+                if(element.isNeighbor(this.bubbles[i]) === true
+                    && element.isSameColor(this.bubbles[i]) === true) {
+                    if (clusterArr.indexOf(this.bubbles[i]) === -1) {
+                        clusterArr.push(this.bubbles[i]);
+                        newMemberArr.push(this.bubbles[i]);
+                    }
+                }
+            }
+        }
+
+        
+        if (clusterArr.length >= 3) {
+            for(let i = 0; i < clusterArr.length; i++) {
+                this.removeBubble(clusterArr[i]);
+            }
+        }
+    }
+
+    removeBubble(aBubble){
+        const index = this.bubbles.indexOf(aBubble);
+        if (index > -1) {
+            this.bubbles.splice(index, 1); 
+
+            const board = document.getElementById("board");
+            board.removeChild(aBubble.domElement);
+        }
     }
 }
 
@@ -122,16 +162,17 @@ class Bubble {
         this.positionY = positionY;
         this.actionComplete = false;
 
+        const bubbleColorArr = ['bubble-pink', 'bubble-green', 'bubble-yellow', 'bubble-blue'];
+        this.color = bubbleColorArr[Math.floor(Math.random()*bubbleColorArr.length)];
+
         this.domElement = null;
         this.createDomElement();
     }
 
     createDomElement(){
         this.domElement = document.createElement("div");
-        const bubbleColorArr = ['bubble-pink', 'bubble-green', 'bubble-yellow', 'bubble-blue'];
 
-
-        this.domElement.className = bubbleColorArr[Math.floor(Math.random()*bubbleColorArr.length)];
+        this.domElement.className = this.color;
 
         this.domElement.style.left = (this.positionX - (this.width / 2)) + "vh"
         this.domElement.style.bottom = (this.positionY - (this.height / 2))+ "vh"
@@ -196,6 +237,20 @@ class Bubble {
         const otherCenterY = otherBubble.positionY - otherBubble.height/2 + velocityY;
         const distance = Math.sqrt(Math.pow((centerX - otherCenterX), 2) + Math.pow((centerY - otherCenterY), 2));
         if (distance <= 6) {
+            return true;
+        }
+        return false;
+    }
+
+    isNeighbor(otherBubble) {
+        if (this.bubble === otherBubble) {
+            return false;
+        }
+        return this.willCollide(otherBubble, 0, 0);   
+    }
+
+    isSameColor(otherBubble){
+        if(this.color === otherBubble.color) {
             return true;
         }
         return false;
