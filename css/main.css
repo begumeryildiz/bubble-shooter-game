@@ -21,33 +21,25 @@ body {
 }*/
 
 .bubble-pink {
-    background-color: rgb(212, 68, 145);
+    background-image: url(../resources/images/furry-balls-pink.png);
+    background-size: cover;
     position: absolute;
-    border-radius: 50%;
-    outline: 1px solid rgb(75, 26, 52);
-    outline-offset: -1px;
 }
 
 .bubble-green{
-    background-color: rgb(53, 218, 106);
+    background-image: url(../resources/images/furry-balls-green.png);
+    background-size: cover;
     position: absolute;
-    border-radius: 50%;
-    outline: 1px solid rgb(75, 26, 52);
-    outline-offset: -1px;
 }
 
 .bubble-yellow{
-    background-color: rgb(229, 238, 69);
+    background-image: url(../resources/images/furry-balls-yellow.png);
+    background-size: cover;
     position: absolute;
-    border-radius: 50%;
-    outline: 1px solid rgb(75, 26, 52);
-    outline-offset: -1px;
 }
 
 .bubble-blue{
-    background-color: rgb(80, 206, 228);
+    background-image: url(../resources/images/furry-balls-blue.png);
+    background-size: cover;
     position: absolute;
-    border-radius: 50%;
-    outline: 1px solid rgb(75, 26, 52);
-    outline-offset: -1px;
 }
