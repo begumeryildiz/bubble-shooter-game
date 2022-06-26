@@ -113,19 +113,18 @@ class Game {
         });
     }
 
-    findClustersAndRemoveBubbles() {
-        const clusterArr = [];
+    addBubblesToConnectedCluster(aBubble, clusterArr, checkColor) {
         const newMemberArr = [];
         
-        clusterArr.push(this.bubble);
-        newMemberArr.push(this.bubble);
+        clusterArr.push(aBubble);
+        newMemberArr.push(aBubble);
 
         while (newMemberArr.length > 0) {
             const element = newMemberArr.shift();
             
             for (let i = 0; i < this.bubbles.length; i++) {
                 if(element.isNeighbor(this.bubbles[i]) === true
-                    && element.isSameColor(this.bubbles[i]) === true) {
+                    && (checkColor === false || element.isSameColor(this.bubbles[i]) === true)) {
                     if (clusterArr.indexOf(this.bubbles[i]) === -1) {
                         clusterArr.push(this.bubbles[i]);
                         newMemberArr.push(this.bubbles[i]);
@@ -133,6 +132,34 @@ class Game {
                 }
             }
         }
+        return clusterArr;
+    }
+
+    getTopLine() {
+        const topLine = this.bubbles.filter(bubble => bubble.positionY === this.height - this.bubbleRadius);
+        return topLine;
+    }
+
+    findAllConnectedBubbles() {
+        const clusterArr = [];
+        const checkColor = false;
+        this.getTopLine().forEach(element => {
+            this.addBubblesToConnectedCluster(element, clusterArr, checkColor)
+        });
+        return clusterArr;
+    }
+
+    removeUnconnectedBubbles() {
+        const connectedBubbles = this.findAllConnectedBubbles()
+        const unconnectedBubbles = this.bubbles.filter(bubble => connectedBubbles.indexOf(bubble) === -1);
+        for(let i = 0; i < unconnectedBubbles.length; i++) {
+            this.removeBubble(unconnectedBubbles[i]);
+        }
+    }
+
+    findClustersAndRemoveBubbles() {
+        const clusterArr = [];
+        this.addBubblesToConnectedCluster(this.bubble, clusterArr, true);
 
         if (clusterArr.length >= 3) {
             this.score += Math.pow(clusterArr.length, 2) * 10;
@@ -141,6 +168,7 @@ class Game {
                 this.removeBubble(clusterArr[i]);
             }
         }
+        this.removeUnconnectedBubbles();
     }
 
     removeBubble(aBubble){
