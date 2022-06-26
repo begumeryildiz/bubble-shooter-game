@@ -46,18 +46,25 @@ class Game {
         }
 
         // bubble to bubble collusion
+        const closestBubbles = [];
         for (let i = 0; i < this.bubbles.length; i++) {
             if ( this.bubbles[i].willCollide(this.bubble, this.velocityX, this.velocityY) !== false) {
-                this.velocityX = 0;
-                this.velocityY = 0;
-                const locations = this.bubbles[i].getPossibleLocations();
-                const bestLocation = this.bubble.closestLocation(locations);
-                this.bubble.positionX = bestLocation.x;
-                this.bubble.positionY = bestLocation.y;
-                stopped = true;
-                
+                closestBubbles.push(this.bubbles[i]);
             }
         }
+
+        if(closestBubbles.length > 0) {
+            this.velocityX = 0;
+            this.velocityY = 0;
+            const locations = this.bubble.closestLocation(closestBubbles).getPossibleLocations();
+            const bestLocation = this.bubble.closestLocation(locations);
+            this.bubble.positionX = bestLocation.positionX;
+            this.bubble.positionY = bestLocation.positionY;
+            stopped = true;  
+        }
+
+
+
         // move if no collusion
         this.bubble.moveBy(this.velocityX, this.velocityY);
         if (stopped) {
@@ -150,12 +157,12 @@ class Bubble {
 
     getPossibleLocations() {
         const locationsArr = [];
-        locationsArr.push({x:this.positionX + 3, y:this.positionY - verticalStep});
-        locationsArr.push({x:this.positionX - 3, y:this.positionY - verticalStep});
-        locationsArr.push({x:this.positionX + 6, y:this.positionY});
-        locationsArr.push({x:this.positionX - 6, y:this.positionY});
-        locationsArr.push({x:this.positionX + 3, y:this.positionY + verticalStep});
-        locationsArr.push({x:this.positionX - 3, y:this.positionY + verticalStep});
+        locationsArr.push({positionX:this.positionX + 3, positionY:this.positionY - verticalStep});
+        locationsArr.push({positionX:this.positionX - 3, positionY:this.positionY - verticalStep});
+        locationsArr.push({positionX:this.positionX + 6, positionY:this.positionY});
+        locationsArr.push({positionX:this.positionX - 6, positionY:this.positionY});
+        locationsArr.push({positionX:this.positionX + 3, positionY:this.positionY + verticalStep});
+        locationsArr.push({positionX:this.positionX - 3, positionY:this.positionY + verticalStep});
         
         return locationsArr;
     }
@@ -169,9 +176,9 @@ class Bubble {
 
     closestLocation(locations) {
         let location = locations[0];
-        let minDistance = this.distanceTo(locations[0].x, locations[0].y);
+        let minDistance = this.distanceTo(locations[0].positionX, locations[0].positionY);
         for (let i = 0; i < locations.length; i++) {
-            const distance =  this.distanceTo(locations[i].x, locations[i].y);
+            const distance =  this.distanceTo(locations[i].positionX, locations[i].positionY);
             console.log(distance)
             if ( distance < minDistance) {
                 minDistance = distance;
@@ -189,7 +196,7 @@ class Bubble {
         const otherCenterY = otherBubble.positionY - otherBubble.height/2 + velocityY;
         const distance = Math.sqrt(Math.pow((centerX - otherCenterX), 2) + Math.pow((centerY - otherCenterY), 2));
         if (distance <= 6) {
-            return distance;
+            return true;
         }
         return false;
     }
