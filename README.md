@@ -1,15 +1,15 @@
-# H1 Furry Monsters Bubble Shoote
----
+# Furry Bubble Shooter
 
-## H2 Description
----
+## Description
+The aim of Furry Bubble Shooter is to collect as many points as possible. To get points you need to destroy the colored furry bubbles. In order to burst those bubbles you need to connect the same color furry bubbles.
 
-## H2 Built With
----
+### How to play
+In the bottom center of the gaming window you will find an furry buuble. You can select to direction with your mouse. Every time you click the left mouse button you will fire a new bubble to the current direction.
 
+## Built With
 - HTML5
 - CSS3
 - JavaScript
 
-## H2 Demo
----
+## Demo
+Here is the demo link.
