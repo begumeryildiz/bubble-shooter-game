@@ -7,7 +7,7 @@ class Game {
         this.width = 60;
         this.height = 90;
         this.bubbleRadius = 3;
-        this.velocity = 0.3;
+        this.velocity = 1;
         this.velocityX = 0;
         this.velocityY = 0;
         this.score = 0;   
@@ -107,7 +107,7 @@ class Game {
                 
                 this.intervalId = setInterval(() => {
                     this.moveBubble();   
-                }, 4);
+                }, 20);
         
 
                 this.bubble.stopShaking();
@@ -215,6 +215,7 @@ class Bubble {
         this.domElement.style.height = this.height + "vh";
         this.domElement.style.width = this.width + "vh";
 
+        this.addEyes();
         const boardElm = document.getElementById("board");
         boardElm.appendChild(this.domElement);
     }
@@ -311,6 +312,21 @@ class Bubble {
 
     stopShaking() {
         this.domElement.style.animationName= '';
+    }
+
+    addEyes() {
+        const eyesWrapper = document.createElement("div");
+        eyesWrapper.className = "eyes-wrap";
+        const leftEye = document.createElement("div");
+        const rightEye = document.createElement("div");
+
+        const eyeMove = ["blink", "double-blink", "grin", "sad", "up", "down"];
+        const randomEyeMove = eyeMove[Math.floor(Math.random() * eyeMove.length)];
+        leftEye.classList.add("eye", randomEyeMove);
+        rightEye.classList.add("eye", randomEyeMove);
+        this.domElement.appendChild(eyesWrapper);
+        eyesWrapper.appendChild(leftEye);
+        eyesWrapper.appendChild(rightEye);
     }
 
 }
