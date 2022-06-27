@@ -10,7 +10,9 @@ class Game {
         this.velocity = 1;
         this.velocityX = 0;
         this.velocityY = 0;
-        this.score = 0;   
+        this.score = 0;
+        this.yippieSound = new Audio('../resources/audios/yippee-sound.mp3');
+        
     }
 
     start(){
@@ -164,13 +166,14 @@ class Game {
         this.addBubblesToConnectedCluster(this.bubble, clusterArr, true);
 
         if (clusterArr.length >= 3) {
+            this.yippieSound.play();
             this.score += Math.pow(clusterArr.length, 2) * 10;
             this.updateScore();
             for(let i = 0; i < clusterArr.length; i++) {
                 this.removeBubble(clusterArr[i]);
             }
-        }
-        this.removeUnconnectedBubbles();
+            this.removeUnconnectedBubbles();
+        }  
     }
 
     removeBubble(aBubble){
