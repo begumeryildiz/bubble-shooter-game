@@ -270,10 +270,10 @@ class Bubble {
     }
 
     willCollide(otherBubble, velocityX, velocityY) {
-        const centerX = this.positionX - this.width/2;
-        const centerY = this.positionY - this.height/2;
-        const otherCenterX = otherBubble.positionX - otherBubble.width/2 + velocityX; 
-        const otherCenterY = otherBubble.positionY - otherBubble.height/2 + velocityY;
+        const centerX = this.positionX;
+        const centerY = this.positionY;
+        const otherCenterX = otherBubble.positionX + velocityX; 
+        const otherCenterY = otherBubble.positionY + velocityY;
         const distance = Math.sqrt(Math.pow((centerX - otherCenterX), 2) + Math.pow((centerY - otherCenterY), 2));
         if (distance <= 6) {
             return true;
