@@ -1,9 +1,29 @@
 body {
-    background-color: rgb(244, 239, 198);
+    height: 100%;
+    margin: 0;
+
 }
+.bg {
+    /* The image used */
+    background-image: url("../resources/images/big-background-green.png");
+    /* Full height */
+    height: 100vh;
+    width: 100vw;
+    filter: blur(5px);
+    -webkit-filter: blur(px);
+
+  
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  
 
 #board {
-    background-color: rgb(199, 240, 234);
+    background-image: url(../resources/images/game-background-mountains-green.png);
+    background-size: cover;
     width: 60vh;
     height: 90vh;
     margin: 0;
@@ -12,7 +32,26 @@ body {
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    outline: 3vh solid rgb(75, 26, 52);
+    border: 4vh solid transparent;
+    border-image: url(../resources/images/border-image.png) 100 stretch;   
+}
+
+#sign-board {
+    bottom: 2vh;
+    left: 2vh;
+    height: 15vh;
+    width: 16vh;
+    text-align: center;
+    color: #ffeb13;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-style: oblique;
+    font-weight: 900;
+    padding-top: 4vh;
+    background-image: url(../resources/images/sign-board.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+
 }
 
 /*.bubble {

@@ -165,7 +165,7 @@ class Game {
 
         if (clusterArr.length >= 3) {
             this.score += Math.pow(clusterArr.length, 2) * 10;
-            console.log(this.score);
+            this.updateScore();
             for(let i = 0; i < clusterArr.length; i++) {
                 this.removeBubble(clusterArr[i]);
             }
@@ -181,6 +181,11 @@ class Game {
             const board = document.getElementById("board");
             board.removeChild(aBubble.domElement);
         }
+    }
+
+    updateScore(){
+        const signBoard = document.getElementById("sign-board");
+        signBoard.textContent = `SCORE: ${this.score}`;
     }
 }
 
@@ -313,3 +318,4 @@ class Bubble {
 const game = new Game();
 game.start();
 game.attachEventListeners();
+game.updateScore();
