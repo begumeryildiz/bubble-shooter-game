@@ -43,11 +43,10 @@ body {
     width: 16vh;
     text-align: center;
     color: #ffeb13;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-style: oblique;
-    font-weight: 900;
-    font-size: 2vh;
-    padding-top: 4vh;
+    font-family: 'Chewy', cursive;
+    font-size: 2.2vh;
+    text-shadow: 0px 2px 0px rgba(255,255,255,.3), 0px -2px 0px rgba(0,0,0,.7);
+    padding-top: 3.5vh;
     background-image: url(../resources/images/sign-board.png);
     background-size: contain;
     background-repeat: no-repeat;
