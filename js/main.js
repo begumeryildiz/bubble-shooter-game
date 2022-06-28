@@ -12,7 +12,7 @@ class Game {
         this.velocityY = 0;
         this.score = 0;
         this.yippieSound = new Audio('../resources/audios/yippee-sound.mp3');
-        this.gameBackgroundSound = new Audio('../resources/audios/game-background-audio.mp3');
+        this.gameBackgroundSound = document.getElementById('background-audio');
         this.gameBackgroundSound.loop = true;
         this.gameOverSound = new Audio('../resources/audios/gameover-audio.mp3');
         this.minClusterSize = 3;

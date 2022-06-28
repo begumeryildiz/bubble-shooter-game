@@ -32,7 +32,7 @@ body {
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    border: 4vh solid transparent;
+    border: 4.8vh solid transparent;
     border-image: url(../resources/images/border-image.png) 100 stretch;   
 }
 
@@ -111,7 +111,7 @@ body {
 }
 
 .next-button {
-    width: 15vh;
+    width: 16vh;
     height: 5vh;
     margin-top: 2vh;
     margin-left: auto;
