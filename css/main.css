@@ -53,15 +53,23 @@ body {
     position: absolute;
 }
 
+#message-box {
+    width: 0;
+    height: 0;
+    backdrop-filter: blur(0.5vh);
+    z-index: 1000;
+    position: absolute;
+}
+
 .message-board {
-    width: 80%;
-    height: 50%;
+    width: 40vh;
+    height: 27vh;
     text-align: center;
     color: #ffeb13;
     font-family: 'Chewy', cursive;
     font-size:5.5vh;
     text-shadow: 0px 2px 0px rgba(255,255,255,.7), 0px -2px 0px rgba(0,0,0,.7);
-    padding-top: 12vh;
+    padding-top: 10vh;
     background-image: url(../resources/images/message-box-background.png);
     background-size: contain;
     background-repeat: no-repeat;
@@ -70,6 +78,20 @@ body {
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+}
+
+.restart-button {
+    width: 15vh;
+    height: 5vh;
+    margin-top: 2vh;
+    margin-left: auto;
+    margin-right: auto;
+    left: 50%;
+    background-image: url(../resources/images/restart-button-background.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: transparent;
+
 }
 
 /*.bubble {
@@ -98,13 +120,5 @@ body {
 .bubble-blue{
     background-image: url(../resources/images/furry-balls-blue.png);
     background-size: cover;
-    position: absolute;
-}
-
-#message-box {
-    width: 0;
-    height: 0;
-    backdrop-filter: blur(0.5vh);
-    z-index: 1000;
     position: absolute;
 }

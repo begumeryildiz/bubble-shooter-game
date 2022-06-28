@@ -189,6 +189,11 @@ class Game {
         }
     }
 
+    removeActiveBubble() {
+        const board = document.getElementById("board");
+        board.removeChild(this.bubble.domElement);
+    }
+
     updateScore(){
         const signBoard = document.getElementById("sign-board");
         signBoard.textContent = `SCORE: ${this.score}`;
@@ -203,7 +208,12 @@ class Game {
             const messageText = document.createElement('p');
             messageText.innerText = 'GAME OVER';
             messageBoard.appendChild(messageText);
+            const gameButton = document.createElement('div');
+            gameButton.className = 'restart-button';
+            messageBoard.appendChild(gameButton);
+            gameButton.addEventListener('click', () => this.restart());
         }
+        
 
         messageBox.style.width = '100%';
         messageBox.style.height = '100%';
@@ -222,6 +232,14 @@ class Game {
         console.log ('game over');
 
         this.showMessage('Game Over')
+    }
+
+    restart() {
+        this.hideMessage();
+        this.score = 0;
+        this.bubbles.forEach(aBubble => this.removeBubble(aBubble));
+        this.removeActiveBubble();
+        this.start();
     }
 }
 
@@ -372,3 +390,4 @@ const game = new Game();
 game.start();
 game.attachEventListeners();
 game.updateScore();
+game.showMessage('Game Over');
