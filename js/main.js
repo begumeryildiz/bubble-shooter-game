@@ -12,6 +12,8 @@ class Game {
         this.velocityY = 0;
         this.score = 0;
         this.yippieSound = new Audio('../resources/audios/yippee-sound.mp3');
+        this.minClusterSize = 3;
+        this.levelThreshold = 2500;
     }
 
     start(){
@@ -27,6 +29,7 @@ class Game {
             y -= verticalStep;
         }
         this.newActiveBubble();
+        this.updateScore();
     }
 
 
@@ -87,8 +90,12 @@ class Game {
                 minPositionY = this.bubbles[i].positionY;
             }
         }
-        if(minPositionY < this.height - (this.bubbleRadius * 2)- (12 * verticalStep)) {
+        if (minPositionY < this.height - (this.bubbleRadius * 2)- (12 * verticalStep)) {
             this.gameOver();
+        }
+
+        if (this.score >= this.levelThreshold) {
+            this.showMessage('Next');
         }
 
         setTimeout(() => {  
@@ -173,7 +180,7 @@ class Game {
         const clusterArr = [];
         this.addBubblesToConnectedCluster(this.bubble, clusterArr, true);
 
-        if (clusterArr.length >= 3) {
+        if (clusterArr.length >= this.minClusterSize) {
             this.yippieSound.play();
             this.score += Math.pow(clusterArr.length, 2) * 10;
             this.updateScore();
@@ -199,7 +206,7 @@ class Game {
 
     updateScore(){
         const signBoard = document.getElementById("sign-board");
-        signBoard.textContent = `SCORE: ${this.score}`;
+        signBoard.innerHTML = `<p>SCORE: ${this.score}</p> <p>Explode min ${this.minClusterSize}</p>`;
     }
 
     showMessage(state) {
@@ -229,9 +236,19 @@ class Game {
                 this.restart();
                 event.stopPropagation();
             });
+        } else if (state === 'Next') {
+            const messageText = document.createElement('p');
+            messageText.innerText = "NEXT LEVEL";
+            messageBoard.appendChild(messageText);
+            const gameButton = document.createElement('button');
+            gameButton.className = 'next-button';
+            messageBoard.appendChild(gameButton);
+            gameButton.addEventListener('click', (event) => {
+                this.nextLevel();
+                event.stopPropagation();
+            });
         }
         
-
         messageBox.style.width = '100%';
         messageBox.style.height = '100%';
     }
@@ -245,13 +262,24 @@ class Game {
         }
     }
 
-    gameOver() {
+    gameOver() { 
         this.showMessage('Game Over')
     }
 
     restart() {
         this.hideMessage();
         this.score = 0;
+        this.minClusterSize = 3;
+        this.bubbles.forEach(aBubble => aBubble.deleteDomElement());
+        this.bubbles.splice(0, this.bubbles.length);
+        this.removeActiveBubble();
+        this.start();
+    }
+
+    nextLevel() {
+        this.hideMessage();
+        this.score = 0;
+        this.minClusterSize += 1;
         this.bubbles.forEach(aBubble => aBubble.deleteDomElement());
         this.bubbles.splice(0, this.bubbles.length);
         this.removeActiveBubble();
