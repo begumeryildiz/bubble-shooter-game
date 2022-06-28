@@ -12,8 +12,10 @@ class Game {
         this.velocityY = 0;
         this.score = 0;
         this.yippieSound = new Audio('../resources/audios/yippee-sound.mp3');
+        this.gameBackgroundSound = new Audio('../resources/audios/game-background-audio.mp3');
+        this.gameBackgroundSound.loop = true;
         this.minClusterSize = 3;
-        this.levelThreshold = 2500;
+        this.levelThreshold = 500;
     }
 
     start(){
@@ -267,6 +269,7 @@ class Game {
     }
 
     restart() {
+        this.gameBackgroundSound.play();
         this.hideMessage();
         this.score = 0;
         this.minClusterSize = 3;
