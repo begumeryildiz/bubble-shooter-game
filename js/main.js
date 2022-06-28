@@ -12,7 +12,6 @@ class Game {
         this.velocityY = 0;
         this.score = 0;
         this.yippieSound = new Audio('../resources/audios/yippee-sound.mp3');
-        
     }
 
     start(){
@@ -184,14 +183,12 @@ class Game {
         if (index > -1) {
             this.bubbles.splice(index, 1); 
 
-            const board = document.getElementById("board");
-            board.removeChild(aBubble.domElement);
+            aBubble.deleteDomElement();
         }
     }
 
     removeActiveBubble() {
-        const board = document.getElementById("board");
-        board.removeChild(this.bubble.domElement);
+        this.bubble.deleteDomElement();
     }
 
     updateScore(){
@@ -208,10 +205,24 @@ class Game {
             const messageText = document.createElement('p');
             messageText.innerText = 'GAME OVER';
             messageBoard.appendChild(messageText);
-            const gameButton = document.createElement('div');
+            const gameButton = document.createElement('button');
             gameButton.className = 'restart-button';
             messageBoard.appendChild(gameButton);
-            gameButton.addEventListener('click', () => this.restart());
+            gameButton.addEventListener('click', (event) => {
+                this.restart();
+                event.stopPropagation();
+            });
+        } else if (state === 'Start') {
+            const messageText = document.createElement('p');
+            messageText.innerText = "Furry Bubble Shooter";
+            messageBoard.appendChild(messageText);
+            const gameButton = document.createElement('button');
+            gameButton.className = 'play-button';
+            messageBoard.appendChild(gameButton);
+            gameButton.addEventListener('click', (event) => {
+                this.restart();
+                event.stopPropagation();
+            });
         }
         
 
@@ -229,15 +240,14 @@ class Game {
     }
 
     gameOver() {
-        console.log ('game over');
-
         this.showMessage('Game Over')
     }
 
     restart() {
         this.hideMessage();
         this.score = 0;
-        this.bubbles.forEach(aBubble => this.removeBubble(aBubble));
+        this.bubbles.forEach(aBubble => aBubble.deleteDomElement());
+        this.bubbles.splice(0, this.bubbles.length);
         this.removeActiveBubble();
         this.start();
     }
@@ -273,6 +283,11 @@ class Bubble {
         this.addEyes();
         const boardElm = document.getElementById("board");
         boardElm.appendChild(this.domElement);
+    }
+
+    deleteDomElement() {
+        const board = document.getElementById("board");
+        board.removeChild(this.domElement);
     }
 
     getCenterX() {
@@ -390,4 +405,4 @@ const game = new Game();
 game.start();
 game.attachEventListeners();
 game.updateScore();
-game.showMessage('Game Over');
+game.showMessage('Start');
