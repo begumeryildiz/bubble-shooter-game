@@ -69,7 +69,6 @@ class Game {
         }
 
 
-
         // move if no collusion
         this.bubble.moveBy(this.velocityX, this.velocityY);
         if (stopped) {
@@ -82,7 +81,11 @@ class Game {
 
         this.bubbles.push(this.bubble);
         this.findClustersAndRemoveBubbles();
-        
+
+        if(this.bubble.positionY < this.height - this.bubbleRadius - (12 * verticalStep)) {
+            this.gameOver();
+        }
+
         setTimeout(() => {  
             this.newActiveBubble();
         }, 1000);   
@@ -190,7 +193,12 @@ class Game {
         const signBoard = document.getElementById("sign-board");
         signBoard.textContent = `SCORE: ${this.score}`;
     }
+
+    gameOver() {
+        console.log ('game over');
+    }
 }
+
 
 
 class Bubble {
