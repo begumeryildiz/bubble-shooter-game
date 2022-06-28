@@ -81,7 +81,13 @@ class Game {
         this.bubbles.push(this.bubble);
         this.findClustersAndRemoveBubbles();
 
-        if(this.bubble.positionY < this.height - this.bubbleRadius - (12 * verticalStep)) {
+        let minPositionY = this.height - this.bubbleRadius;
+        for (let i = 0; i < this.bubbles.length; i++) {
+            if (this.bubbles[i].positionY < minPositionY) {
+                minPositionY = this.bubbles[i].positionY;
+            }
+        }
+        if(minPositionY < this.height - (this.bubbleRadius * 2)- (12 * verticalStep)) {
             this.gameOver();
         }
 
