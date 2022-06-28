@@ -194,8 +194,34 @@ class Game {
         signBoard.textContent = `SCORE: ${this.score}`;
     }
 
+    showMessage(state) {
+        const messageBox = document.getElementById('message-box');
+        const messageBoard = document.createElement('div');
+        messageBoard.className = 'message-board';
+        messageBox.appendChild(messageBoard);
+        if(state === 'Game Over') {
+            const messageText = document.createElement('p');
+            messageText.innerText = 'GAME OVER';
+            messageBoard.appendChild(messageText);
+        }
+
+        messageBox.style.width = '100%';
+        messageBox.style.height = '100%';
+    }
+
+    hideMessage() {
+        const messageBox = document.getElementById('message-box');
+        messageBox.style.width = 0;
+        messageBox.style.height = 0;
+        while (messageBox.firstChild) {
+            messageBox.removeChild(messageBox.lastChild);
+        }
+    }
+
     gameOver() {
         console.log ('game over');
+
+        this.showMessage('Game Over')
     }
 }
 
