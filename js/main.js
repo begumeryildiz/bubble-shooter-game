@@ -200,12 +200,12 @@ class Game {
         if (index > -1) {
             this.bubbles.splice(index, 1); 
 
-            aBubble.deleteDomElement();
+            aBubble.scaleOutAndDelete();
         }
     }
 
     removeActiveBubble() {
-        this.bubble.deleteDomElement();
+        this.bubble.scaleOutAndDelete();
     }
 
     updateScore(){
@@ -358,6 +358,15 @@ class Bubble {
     deleteDomElement() {
         const board = document.getElementById("board");
         board.removeChild(this.domElement);
+    }
+
+    scaleOutAndDelete() {
+        this.domElement.style.animationName= 'scale-out';
+        this.domElement.style.animationDuration= '1s';
+        this.domElement.style.animationFillMode = 'forwards';
+        setTimeout(() => {
+            this.deleteDomElement();
+        }, 1000);
     }
 
     getCenterX() {
