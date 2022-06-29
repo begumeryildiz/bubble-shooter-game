@@ -17,7 +17,7 @@ class Game {
         this.gameOverSound = new Audio('./resources/audios/gameover-audio.mp3');
         this.musicOn = true;
         this.minClusterSize = 3;
-        this.levelThreshold = 500;
+        this.levelThreshold = 1000;
     }
 
     start(){
