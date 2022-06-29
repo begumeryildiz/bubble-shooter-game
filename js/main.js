@@ -399,10 +399,7 @@ class Bubble {
     }
 
     distanceTo(x, y) {
-        const centerX = this.positionX - this.width/2;
-        const centerY = this.positionY - this.height/2;
-        const distance = Math.sqrt(Math.pow((centerX - x), 2) + Math.pow((centerY - y), 2));
-        return distance;
+        return Math.sqrt(Math.pow((this.positionX - x), 2) + Math.pow((this.positionY - y), 2));
     }
 
     closestLocation(locations) {
@@ -450,8 +447,6 @@ class Bubble {
         this.positionY += velocityY;
         this.domElement.style.left = (this.positionX - (this.width / 2)) + "vh"
         this.domElement.style.bottom = (this.positionY - (this.height / 2))+ "vh"
-        this.domElement.style.height = this.height + "vh";
-        this.domElement.style.width = this.width + "vh";
     }
 
     startShaking() {
