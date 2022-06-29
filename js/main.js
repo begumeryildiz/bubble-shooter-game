@@ -15,6 +15,7 @@ class Game {
         this.gameBackgroundSound = new Audio('./resources/audios/game-background-audio.mp3');
         this.gameBackgroundSound.loop = true;
         this.gameOverSound = new Audio('./resources/audios/gameover-audio.mp3');
+        this.musicOn = true;
         this.minClusterSize = 3;
         this.levelThreshold = 500;
     }
@@ -209,7 +210,7 @@ class Game {
 
     updateScore(){
         const signBoard = document.getElementById("sign-board");
-        signBoard.innerHTML = `<p>SCORE: ${this.score}</p> <p>Explode min ${this.minClusterSize}</p>`;
+        signBoard.innerHTML = `<p>SCORE: ${this.score}</p> <p>Connect min ${this.minClusterSize}</p>`;
     }
 
     showMessage(state) {
@@ -267,13 +268,12 @@ class Game {
 
     gameOver() { 
         this.showMessage('Game Over')
-        this.gameBackgroundSound.pause();
-        this.gameBackgroundSound.currentTime = 0;
+        this.stopMusic();
         this.gameOverSound.play();
     }
 
     restart() {
-        this.gameBackgroundSound.play();
+        this.playMusic();
         this.hideMessage();
         this.score = 0;
         this.minClusterSize = 3;
@@ -291,6 +291,35 @@ class Game {
         this.bubbles.splice(0, this.bubbles.length);
         this.removeActiveBubble();
         this.start();
+    }
+
+    addSoundOn() {
+        const soundOnButton = document.getElementById("sound-on-button");
+        soundOnButton.addEventListener('click', (event) => {
+           this.musicOn = true;
+           this.playMusic();
+           event.stopPropagation();
+        });
+    }
+
+    addSoundOff() {
+        const soundOffButton = document.getElementById("sound-off-button");
+        soundOffButton.addEventListener('click', (event) => {
+            this.musicOn = false;
+            this.stopMusic();
+            event.stopPropagation();
+        });
+    }
+
+    playMusic() {
+       if (this.musicOn) {
+        this.gameBackgroundSound.play();
+       } 
+    }
+
+    stopMusic() {
+        this.gameBackgroundSound.pause();
+        this.gameBackgroundSound.currentTime = 0;
     }
 }
 
@@ -447,3 +476,5 @@ game.start();
 game.attachEventListeners();
 game.updateScore();
 game.showMessage('Start');
+game.addSoundOn();
+game.addSoundOff();
