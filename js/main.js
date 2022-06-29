@@ -2,6 +2,7 @@ const verticalStep = Math.sqrt(27);
 
 class Game {
     constructor(){
+        this.board = document.getElementById('board');
         this.bubble = null;
         this.bubbles = [];
         this.width = 60;
@@ -113,7 +114,7 @@ class Game {
     }
     
     attachEventListeners(){
-        document.addEventListener('click', (event) => {
+        this.board.addEventListener('click', (event) => {
 
 
             if(this.bubble.actionComplete === false) {
