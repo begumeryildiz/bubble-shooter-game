@@ -1,4 +1,9 @@
-const verticalStep = Math.sqrt(27);
+// All coordinates in vh because the game fits vertically.
+// Horizantical and vertical should be in the same units
+// since they can match the coordinates system.
+// Bubble raduis is 3, distance between two bubbles' center is 6. 
+// Using Pythagorean theorem 27 = 6**2 - 3**2 
+const verticalStep = Math.sqrt(27); 
 
 class Game {
     constructor(){
@@ -82,7 +87,7 @@ class Game {
             this.bubbleStick();
         }
     }
-
+    // when the active bubble hits other bubbles or borders
     bubbleStick() {
         clearInterval(this.intervalId);
 
@@ -137,6 +142,7 @@ class Game {
         });
     }
 
+    // it checks when the bubble stick if it has neighbors and they have the same color
     addBubblesToConnectedCluster(aBubble, clusterArr, checkColor) {
         const newMemberArr = [];
         
@@ -173,6 +179,7 @@ class Game {
         return clusterArr;
     }
 
+    // it checks the unconnected bubbles in the board
     removeUnconnectedBubbles() {
         const connectedBubbles = this.findAllConnectedBubbles()
         const unconnectedBubbles = this.bubbles.filter(bubble => connectedBubbles.indexOf(bubble) === -1);
@@ -187,6 +194,7 @@ class Game {
 
         if (clusterArr.length >= this.minClusterSize) {
             this.yippieSound.play();
+            // score is related connected cluster size's square
             this.score += Math.pow(clusterArr.length, 2) * 10;
             this.updateScore();
             for(let i = 0; i < clusterArr.length; i++) {
@@ -375,8 +383,7 @@ class Bubble {
     getCenterX() {
         let viewportOffset = this.domElement.getBoundingClientRect();
         let centerX = viewportOffset.left + viewportOffset.width / 2;
-        return centerX;
-        
+        return centerX;    
     }
 
     getCenterY() {
@@ -385,6 +392,8 @@ class Bubble {
         return centerY;
     }
 
+    // A bubble can stick only specific locations that relative its neighbors.
+    // This function generate the relative locations.
     getPossibleLocations() {
         const locationsArr = [];
         locationsArr.push({positionX:this.positionX + 3, positionY:this.positionY - verticalStep});
