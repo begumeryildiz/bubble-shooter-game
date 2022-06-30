@@ -3,16 +3,21 @@
 // since they can match the coordinates system.
 // Bubble raduis is 3, distance between two bubbles' center is 6. 
 // Using Pythagorean theorem 27 = 6**2 - 3**2 
-const verticalStep = Math.sqrt(27); 
+const verticalStep = Math.sqrt(27);
+const radius = 3;
+const boardWidth = 60;
+const boardHeight = 90;
+const levelThreshold = 1000; //for demo purposes it is kept low.
 
 class Game {
     constructor(){
         this.board = document.getElementById('board');
         this.bubble = null;
         this.bubbles = [];
-        this.width = 60;
-        this.height = 90;
-        this.bubbleRadius = 3;
+        this.width = boardWidth;
+        this.height = boardHeight;
+        this.bubbleRadius = radius;
+        this.bubbleDiameter = 2*radius;
         this.velocity = 1;
         this.velocityX = 0;
         this.velocityY = 0;
@@ -23,17 +28,24 @@ class Game {
         this.gameOverSound = new Audio('./resources/audios/gameover-audio.mp3');
         this.musicOn = true;
         this.minClusterSize = 3;
-        this.levelThreshold = 1000;
+        this.levelThreshold = levelThreshold;
+
+        this.start();
+        this.attachEventListeners();
+        this.updateScore();
+        this.showMessage('Start');
+        this.addSoundOn();
+        this.addSoundOff();
     }
 
     start(){
         let y = this.height - this.bubbleRadius;
         for (let i = 0; i < 8; i++) {
-            let a = 3;
+            let a = this.bubbleRadius;
             if (i % 2 !== 0) {
-                a = 6;
+                a = this.bubbleDiameter;
             } 
-            for (let x = a; x < 60; x += 6) {
+            for (let x = a; x < this.width; x += this.bubbleDiameter) {
                 this.bubbles.push(new Bubble(x, y));
             }
             y -= verticalStep;
@@ -58,7 +70,7 @@ class Game {
             this.velocityY = 0;
             this.bubble.positionY = this.height - this.bubbleRadius;
             // x=3+6*n top line positioning fix 
-            this.bubble.positionX = Math.round((this.bubble.positionX - 3) / 6) * 6 + 3; 
+            this.bubble.positionX = Math.round((this.bubble.positionX - this.bubbleRadius) / this.bubbleDiameter) * this.bubbleDiameter + this.bubbleRadius; 
             stopped = true;
         }
 
@@ -100,7 +112,7 @@ class Game {
                 minPositionY = this.bubbles[i].positionY;
             }
         }
-        if (minPositionY < this.height - (this.bubbleRadius * 2)- (12 * verticalStep)) {
+        if (minPositionY < this.height - this.bubbleDiameter - (12 * verticalStep)) {
             this.gameOver();
         }
 
@@ -114,7 +126,7 @@ class Game {
     }
 
     newActiveBubble() {
-        this.bubble = new Bubble(30,10);
+        this.bubble = new Bubble(this.width/2, 10);
         this.bubble.startShaking();
     }
     
@@ -338,8 +350,10 @@ class Game {
 
 class Bubble {
     constructor(positionX, positionY){
-        this.height = 6;
-        this.width = 6;
+        this.height = 2*radius;
+        this.width = 2*radius;
+        this.bubbleRadius = radius;
+        this.bubbleDiameter = 2*radius;
         this.positionX = positionX;
         this.positionY = positionY;
         this.actionComplete = false;
@@ -396,16 +410,16 @@ class Bubble {
     // This function generate the relative locations.
     getPossibleLocations() {
         const locationsArr = [];
-        locationsArr.push({positionX:this.positionX + 3, positionY:this.positionY - verticalStep});
-        locationsArr.push({positionX:this.positionX - 3, positionY:this.positionY - verticalStep});
-        locationsArr.push({positionX:this.positionX + 6, positionY:this.positionY});
-        locationsArr.push({positionX:this.positionX - 6, positionY:this.positionY});
-        locationsArr.push({positionX:this.positionX + 3, positionY:this.positionY + verticalStep});
-        locationsArr.push({positionX:this.positionX - 3, positionY:this.positionY + verticalStep});
+        locationsArr.push({positionX:this.positionX + this.bubbleRadius, positionY:this.positionY - verticalStep});
+        locationsArr.push({positionX:this.positionX - this.bubbleRadius, positionY:this.positionY - verticalStep});
+        locationsArr.push({positionX:this.positionX + this.bubbleDiameter, positionY:this.positionY});
+        locationsArr.push({positionX:this.positionX - this.bubbleDiameter, positionY:this.positionY});
+        locationsArr.push({positionX:this.positionX + this.bubbleRadius, positionY:this.positionY + verticalStep});
+        locationsArr.push({positionX:this.positionX - this.bubbleRadius, positionY:this.positionY + verticalStep});
         
         const locationsInBoard = locationsArr.filter(location =>
-            0 < location.positionX && location.positionX < 60
-            && 0 < location.positionY && location.positionY < 90)
+            0 < location.positionX && location.positionX < boardWidth
+            && 0 < location.positionY && location.positionY < boardHeight)
         return locationsInBoard;
     }
 
@@ -433,7 +447,7 @@ class Bubble {
         const otherCenterX = otherBubble.positionX + velocityX; 
         const otherCenterY = otherBubble.positionY + velocityY;
         const distance = Math.sqrt(Math.pow((centerX - otherCenterX), 2) + Math.pow((centerY - otherCenterY), 2));
-        if (distance <= 6) {
+        if (distance <= this.bubbleDiameter) {
             return true;
         }
         return false;
@@ -491,9 +505,3 @@ class Bubble {
 }
 
 const game = new Game();
-game.start();
-game.attachEventListeners();
-game.updateScore();
-game.showMessage('Start');
-game.addSoundOn();
-game.addSoundOff();
