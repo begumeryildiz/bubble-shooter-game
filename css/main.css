@@ -1,8 +1,8 @@
 body {
     height: 100%;
     margin: 0;
-
 }
+
 .bg {
     background-image: url("../resources/images/big-background-green.png");
     height: 100vh;
@@ -12,9 +12,7 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-  }
-
-  
+}
 
 #board {
     background-image: url(../resources/images/game-background-mountains-green.png);
@@ -76,96 +74,78 @@ body {
     transform: translate(-50%, -50%);
 }
 
-.restart-button {
-    width: 15vh;
-    height: 5vh;
-    margin-top: 2vh;
-    margin-left: auto;
-    margin-right: auto;
-    left: 50%;
-    background-image: url(../resources/images/restart-button-background.png);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-color: transparent;
-    border: 0;
-
-}
-
-.play-button {
-    width: 15vh;
-    height: 5vh;
-    margin-top: 2vh;
-    margin-left: auto;
-    margin-right: auto;
-    left: 50%;
-    background-image: url(../resources/images/play-button-background.png);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-color: transparent;
-    border: 0;
-}
-
-.next-button {
+.game-button {
     width: 16vh;
     height: 5vh;
     margin-top: 2vh;
     margin-left: auto;
     margin-right: auto;
     left: 50%;
-    background-image: url(../resources/images/next-button-background.png);
     background-size: cover;
     background-repeat: no-repeat;
     background-color: transparent;
     border: 0;
 }
 
-#sound-on-button {
+.game-button:active {
+    transform: translateY(0.3vh);
+}
+
+.restart-button {
+    background-image: url(../resources/images/restart-button-background.png);   
+}
+
+.play-button {
+       background-image: url(../resources/images/play-button-background.png);  
+}
+
+.next-button {
+   background-image: url(../resources/images/next-button-background.png);
+}
+
+.music-button {
     bottom: 3vh;
-    right: 2vh;
     height: 4.5vh;
     width: 4.5vh;
-    background-image: url(../resources/images/sound-on-button.png);
     background-size: contain;
     background-repeat: no-repeat;
     position: absolute;
+}
+
+.music-button:active {
+    transform: translateY(0.3vh);
+}
+
+#sound-on-button {
+    right: 2vh;
+    background-image: url(../resources/images/sound-on-button.png);    
 }
 
 #sound-off-button {
-    bottom: 3vh;
-    right: 7vh;
-    height: 4.5vh;
-    width: 4.5vh;
-    background-image: url(../resources/images/sound-off-button.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-    position: absolute;
+    right: 7vh;   
+    background-image: url(../resources/images/sound-off-button.png);    
 }
 
-/*.bubble {
-    background-color: rgb(212, 68, 145);
+.bubble {
+    background-size: cover;
     position: absolute;
-}*/
+    animation-name: scale-in;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
 
 .bubble-pink {
     background-image: url(../resources/images/furry-balls-pink.png);
-    background-size: cover;
-    position: absolute;
 }
 
 .bubble-green{
     background-image: url(../resources/images/furry-balls-green.png);
-    background-size: cover;
-    position: absolute;
 }
 
 .bubble-yellow{
     background-image: url(../resources/images/furry-balls-yellow.png);
-    background-size: cover;
-    position: absolute;
 }
 
 .bubble-blue{
     background-image: url(../resources/images/furry-balls-blue.png);
-    background-size: cover;
-    position: absolute;
 }

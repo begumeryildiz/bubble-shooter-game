@@ -224,7 +224,7 @@ class Game {
             messageText.innerText = 'GAME OVER';
             messageBoard.appendChild(messageText);
             const gameButton = document.createElement('button');
-            gameButton.className = 'restart-button';
+            gameButton.classList.add('restart-button', 'game-button');
             messageBoard.appendChild(gameButton);
             gameButton.addEventListener('click', (event) => {
                 this.restart();
@@ -235,7 +235,7 @@ class Game {
             messageText.innerText = "Furry Bubble Shooter";
             messageBoard.appendChild(messageText);
             const gameButton = document.createElement('button');
-            gameButton.className = 'play-button';
+            gameButton.classList.add('play-button', 'game-button');
             messageBoard.appendChild(gameButton);
             gameButton.addEventListener('click', (event) => {
                 this.restart();
@@ -246,7 +246,7 @@ class Game {
             messageText.innerText = "NEXT LEVEL";
             messageBoard.appendChild(messageText);
             const gameButton = document.createElement('button');
-            gameButton.className = 'next-button';
+            gameButton.classList.add('next-button', 'game-button');
             messageBoard.appendChild(gameButton);
             gameButton.addEventListener('click', (event) => {
                 this.nextLevel();
@@ -296,6 +296,7 @@ class Game {
 
     addSoundOn() {
         const soundOnButton = document.getElementById("sound-on-button");
+        soundOnButton.classList.add('music-button');
         soundOnButton.addEventListener('click', (event) => {
            this.musicOn = true;
            this.playMusic();
@@ -305,6 +306,7 @@ class Game {
 
     addSoundOff() {
         const soundOffButton = document.getElementById("sound-off-button");
+        soundOffButton.classList.add('music-button');
         soundOffButton.addEventListener('click', (event) => {
             this.musicOn = false;
             this.stopMusic();
@@ -344,7 +346,7 @@ class Bubble {
     createDomElement(){
         this.domElement = document.createElement("div");
 
-        this.domElement.className = this.color;
+        this.domElement.classList.add(this.color, 'bubble');
 
         this.domElement.style.left = (this.positionX - (this.width / 2)) + "vh"
         this.domElement.style.bottom = (this.positionY - (this.height / 2))+ "vh"
@@ -450,13 +452,16 @@ class Bubble {
     }
 
     startShaking() {
-        this.domElement.style.animationName= 'shake';
-        this.domElement.style.animationDuration= '0.3s';
+        this.domElement.style.animationName = 'shake';
+        this.domElement.style.animationDuration = '0.3s';
         this.domElement.style.animationIterationCount = 'infinite';
     }
 
     stopShaking() {
-        this.domElement.style.animationName= '';
+        this.domElement.style.animationName = 'scale-half';
+        this.domElement.style.animationFillMode = 'forwards';
+        this.domElement.style.animationDuration = '0.5s';
+        this.domElement.style.animationIterationCount = 1;
     }
 
     addEyes() {

@@ -131,7 +131,6 @@
     }
   }
   
-  
   @keyframes grinb {
     0%, 10% {
       bottom: 0;
@@ -177,3 +176,20 @@
     }
   }
   
+  @keyframes scale-in {
+    0% {
+      transform: scale(0);
+    }
+    100% {
+      transform:scale(1);
+    }
+  }
+
+  @keyframes scale-half {
+    0% {
+      transform: scale(0.5);
+    }
+    100% {
+      transform:scale(1);
+    }
+  }
