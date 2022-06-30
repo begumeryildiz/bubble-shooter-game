@@ -6,6 +6,10 @@ The aim of Furry Bubble Shooter is to collect as many points as possible. To get
 ### How to play
 In the bottom center of the gaming window, you will find a furry bubble. You can select the direction with your mouse. Every time you click the left mouse button you will fire a new bubble to the current direction.
 
+
+<img src="./resources/images/howitended.png" style="width:400px; display: block;margin: 0 auto;">
+
+
 ## Built With
 - HTML5
 - CSS3
